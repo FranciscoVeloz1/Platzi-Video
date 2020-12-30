@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 //Importing components
 import Header from '../components/Header'
@@ -11,31 +11,44 @@ import Footer from '../components/Footer'
 //Importing SASS
 import '../assets/styles/App.scss';
 
-const App = () => (
-    <div className="App">
-        <Header />
-        <Search />
+const App = () => {
 
-        <Categories title="Mi lista">
-            <Carousel>
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-            </Carousel>
-        </Categories>
+    const [videos, setVideos] = useState({ mylist: [], trends: [], originals: [] })
 
-        <Categories title="Tendencias">
-            <Carousel>
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-                <CarouselItem />
-            </Carousel>
-        </Categories>
+    useEffect(() => {
+        fetch('http://localhost:3000/initalState')
+            .then(response => response.json())
+            .then(data => setVideos(data))
+    }, [])
 
-        <Footer />
-    </div>
-)
+    console.log(videos)
+
+    return (
+        <div className="App">
+            <Header />
+            <Search />
+
+            {videos.mylist.length > 0 &&
+                <Categories title="Mi lista">
+                    <Carousel>
+                        <CarouselItem />
+                    </Carousel>
+                </Categories>
+            }
+
+
+
+            <Categories title="Tendencias">
+                <Carousel>
+                    {videos.trends.map(item =>
+                        <CarouselItem key={item.id} {...item}/>
+                    )}
+                </Carousel>
+            </Categories>
+
+            <Footer />
+        </div>
+    )
+}
 
 export default App
