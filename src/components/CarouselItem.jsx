@@ -1,14 +1,15 @@
 import React from 'react'
 import { connect } from "react-redux"
 import PropTypes from 'prop-types'
-import { setFavorite, deleteFavorite } from '../actions/index';
+import { setFavorite, deleteFavorite } from '../actions/index'
+import { Link } from "react-router-dom"
 
 //Importing CSS
 import '../assets/styles/components/CarouselItem.scss'
 
 //Importing static files
-import playIcon from '../assets/static/play-icon.png';
-import plusIcon from '../assets/static/plus-icon.png';
+import playIcon from '../assets/static/play-icon.png'
+import plusIcon from '../assets/static/plus-icon.png'
 import removeIcon from '../assets/static/delete.png'
 
 const CarouselItem = (props) => {
@@ -30,12 +31,28 @@ const CarouselItem = (props) => {
                 src={cover} alt={title} />
             <div className="carousel-item__details">
                 <div>
-                    <img className="carousel-item__details--img" src={playIcon} alt="Play Icon" />
+                    <Link to={`/player/${id}`}>
+                        <img
+                            className="carousel-item__details--img"
+                            src={playIcon}
+                            alt="Play Icon"
+                        />
+                    </Link>
 
                     {isList ?
-                        <img className="carousel-item__details--img" src={removeIcon} alt="Remove Icon" onClick={() => handleDeleteFavorite(id)} />
+                        <img
+                            className="carousel-item__details--img"
+                            src={removeIcon}
+                            alt="Remove Icon"
+                            onClick={() => handleDeleteFavorite(id)}
+                        />
                         :
-                        <img className="carousel-item__details--img" src={plusIcon} alt="Plus Icon" onClick={handleSetFavorite} />
+                        <img
+                            className="carousel-item__details--img"
+                            src={plusIcon}
+                            alt="Plus Icon"
+                            onClick={handleSetFavorite}
+                        />
                     }
 
                 </div>
